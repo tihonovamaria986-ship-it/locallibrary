@@ -2,6 +2,9 @@ from django.db import models
 from django.urls import reverse
 import uuid
 
+from django.contrib.auth.models import User
+from datetime import date
+
 class Genre(models.Model):
     name = models.CharField(max_length=200, help_text='Enter a book genre (e.g. Science Fiction)')
 
@@ -22,8 +25,6 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('book-detail', args=[str(self.id)])
 
-
-
     def display_genre(self):
         """
         Creates a string for the Genre. This is required to display genre in Admin.
@@ -36,6 +37,15 @@ class BookInstance(models.Model):
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
+
+    
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
