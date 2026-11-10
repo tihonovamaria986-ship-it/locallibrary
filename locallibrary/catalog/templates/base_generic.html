@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <!-- Добавление дополнительного статического CSS файла -->
+   
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
   </head>
@@ -28,7 +28,7 @@
               
               {% if user.is_authenticated %}
                 <li>User: {{ user.get_username }}</li>
-                <!-- Исправлено под новую версию Django: выход через форму методом POST -->
+                 <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
                 <li>
                   <form method="post" action="{% url 'logout' %}?next={{ request.path }}" style="display: inline;">
                     {% csrf_token %}
