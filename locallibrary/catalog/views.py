@@ -119,3 +119,7 @@ class AuthorDelete(DeleteView):
 
 class AuthorDetailView(generic.DetailView):
     model = Author
+
+class AuthorListView(generic.ListView):
+    model = Author
+    paginate_by = 10
